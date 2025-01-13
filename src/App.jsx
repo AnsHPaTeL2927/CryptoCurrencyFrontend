@@ -1,35 +1,67 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Navbar from "./components/Navbar";
+import "./index.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import ContactUs from "./pages/ContactUs";
+import Portfolio from "./pages/Portfolio";
+
+// Market Pages
+import Chart from './pages/market/Chart';
+import Currencies from './pages/market/Currencies';
+import Favorites from './pages/market/Favorites';
+
+// Content Pages
+import News from './pages/content/News';
+import Blogs from './pages/content/Blogs';
+
+// Web3 Pages
+import NFT from './pages/web3/NFT';
+import DeFi from './pages/web3/DeFi';
+
+// Account Pages
+import Profile from './pages/account/Profile';
+import Settings from './pages/account/Settings';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <Router>
+        <Navbar />
+        <div className="pt-16"> {/* Add padding top to account for fixed navbar */}
+        <Routes>
+          {/* Main Routes */} 
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+
+          {/* Market Routes */} 
+          <Route path="/charts" element={<Chart />} />
+          <Route path="/currencies" element={<Currencies />} />
+          <Route path="/favorites" element={<Favorites />} />
+
+          {/* Content Routes */}
+          <Route path="/news" element={<News />} />
+          <Route path="/blogs" element={<Blogs />} />
+
+          {/* Trading Routes */}
+          {/* <Route path="/trading/spot" element={<SpotTrading />} />
+          <Route path="/trading/futures" element={<Futures />} />
+          <Route path="/trading/margin" element={<Margin />} /> */}
+
+          {/* Web3 Routes */}
+          <Route path="/nft" element={<NFT />} />
+          <Route path="/defi" element={<DeFi />} />
+
+          {/* Account Routes */}
+          <Route path="/account/profile" element={<Profile />} />
+          <Route path="/account/settings" element={<Settings />} />
+        </Routes>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      </Router>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
