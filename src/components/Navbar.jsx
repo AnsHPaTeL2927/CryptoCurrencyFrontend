@@ -1,7 +1,11 @@
 import { useState, useEffect, useRef } from "react";
+import { useTheme } from "../pages/context/themeContext";
+import { useAuth } from "../pages/context/AuthContext";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  const [theme, setTheme] = useState("light");
+  const { theme, toggleTheme } = useTheme();
+  const { user, logout } = useAuth();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -46,15 +50,9 @@ const Navbar = () => {
     };
   }, []);
 
-  // Theme handling
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  const handleLinkClick = () => {
+    setIsDrawerOpen(false);
   };
-
   // Simple toggle for notifications - only triggered by icon click
   const toggleNotifications = () => {
     setShowNotifications((prev) => !prev);
@@ -170,7 +168,19 @@ const Navbar = () => {
 
           <div className="navbar-center">
             {/* <a className="btn btn-ghost text-xl">daisyUI</a> */}
-            {theme === 'dark' ? <img src="public/logo - without background.png" alt="" className="h-10"/> : <img src="public/logo - with background.jpg" alt="" className="h-10"/>}
+            {theme === "dark" ? (
+              <img
+                src="public/logo - without background.png"
+                alt=""
+                className="h-10"
+              />
+            ) : (
+              <img
+                src="public/logo - with background.jpg"
+                alt=""
+                className="h-10"
+              />
+            )}
           </div>
 
           <div className="navbar-end">
@@ -289,6 +299,102 @@ const Navbar = () => {
               )}
             </div>
 
+            {/* User Avatar Dropdown - Add this before the Theme Toggle */}
+            {user ? (
+              <div className="dropdown dropdown-end ml-2">
+                <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                  <div className="w-10 rounded-full">
+                    <img
+                      src={
+                        user.photoURL ||
+                        "https://api.dicebear.com/7.x/initials/svg?seed=" +
+                          user.name
+                      }
+                      alt="User avatar"
+                    />
+                  </div>
+                </label>
+                <ul
+                  tabIndex={0}
+                  className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+                >
+                  <li>
+                    <Link to="/profile" onClick={handleLinkClick}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                        />
+                      </svg>
+                      Profile
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/settings" onClick={handleLinkClick}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                      </svg>
+                      Settings
+                    </Link>
+                  </li>
+                  <div className="divider my-0"></div>
+                  <li>
+                    <button onClick={logout} className="text-error">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                        />
+                      </svg>
+                      Logout
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            ) : (
+              <div className="flex gap-2">
+                <Link to="/login" className="btn btn-ghost">
+                  Login
+                </Link>
+                <Link to="/register" className="btn btn-primary">
+                  Register
+                </Link>
+              </div>
+            )}
+
             {/* Theme Toggle */}
             <label className="swap swap-rotate ml-5 mr-5">
               <input
@@ -330,37 +436,55 @@ const Navbar = () => {
           {/* Main Navigation */}
           <li className="menu-title">Main</li>
           <li>
-            <a href="/">Home</a>
+            <Link to="/" onClick={handleLinkClick}>
+              Home
+            </Link>
           </li>
           <li>
-            <a href="/about">About</a>
+            <Link to="/about" onClick={handleLinkClick}>
+              About
+            </Link>
           </li>
           <li>
-            <a href="/contact">Contact Us</a>
+            <Link to="/contact" onClick={handleLinkClick}>
+              Contact Us
+            </Link>
           </li>
           <li>
-            <a href="/portfolio">Portfolio</a>
+            <Link to="/portfolio" onClick={handleLinkClick}>
+              Portfolio
+            </Link>
           </li>
 
           {/* Market Section */}
           <li className="menu-title">Market</li>
           <li>
-            <a href="/charts">Charts</a>
+            <Link to="/charts" onClick={handleLinkClick}>
+              Charts
+            </Link>
           </li>
           <li>
-            <a href="/currencies">Currencies</a>
+            <Link to="/currencies" onClick={handleLinkClick}>
+              Currencies
+            </Link>
           </li>
           <li>
-            <a href="/favorites">Favorites</a>
+            <Link to="/favorites" onClick={handleLinkClick}>
+              Favorites
+            </Link>
           </li>
 
           {/* Content Section */}
           <li className="menu-title">Content</li>
           <li>
-            <a href="/news">News</a>
+            <Link to="/news" onClick={handleLinkClick}>
+              News
+            </Link>
           </li>
           <li>
-            <a href="/blogs">Blogs</a>
+            <Link to="/blogs" onClick={handleLinkClick}>
+              Blogs
+            </Link>
           </li>
 
           {/* Trading Dropdown */}
@@ -369,13 +493,19 @@ const Navbar = () => {
               <summary>Trading</summary>
               <ul>
                 <li>
-                  <a href="/trading/spot">Spot Trading</a>
+                  <Link to="/trading/spot" onClick={handleLinkClick}>
+                    Spot Trading
+                  </Link>
                 </li>
                 <li>
-                  <a href="/trading/futures">Futures</a>
+                  <Link to="/trading/futures" onClick={handleLinkClick}>
+                    Futures
+                  </Link>
                 </li>
                 <li>
-                  <a href="/trading/margin">Margin</a>
+                  <Link to="/trading/margin" onClick={handleLinkClick}>
+                    Margin
+                  </Link>
                 </li>
               </ul>
             </details>
@@ -384,19 +514,27 @@ const Navbar = () => {
           {/* Web3 Section */}
           <li className="menu-title">Web3</li>
           <li>
-            <a href="/nft">NFT</a>
+            <Link to="/nft" onClick={handleLinkClick}>
+              NFT
+            </Link>
           </li>
           <li>
-            <a href="/defi">DeFi</a>
+            <Link to="/defi" onClick={handleLinkClick}>
+              DeFi
+            </Link>
           </li>
 
           {/* Account Section */}
           <li className="menu-title">Account</li>
           <li>
-            <a href="/account/profile">Profile</a>
+            <Link to="/profile" onClick={handleLinkClick}>
+              Profile
+            </Link>
           </li>
           <li>
-            <a href="/account/settings">Settings</a>
+            <Link to="/settings" onClick={handleLinkClick}>
+              Settings
+            </Link>
           </li>
         </ul>
       </div>

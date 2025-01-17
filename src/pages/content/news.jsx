@@ -1,6 +1,6 @@
 
 
-const news = () => {
+const News = () => {
   return (
     <div>
       news
@@ -8,4 +8,4 @@ const news = () => {
   )
 }
 
-export default news
+export default News
