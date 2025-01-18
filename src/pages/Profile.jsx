@@ -1,6 +1,6 @@
 const Profile = () => {
   return (
-    <div className="container mx-auto p-4">
+    <div className="p-4">
       {/* Profile Header */}
       <div className="flex items-center gap-4 mb-8">
         <div className="avatar">

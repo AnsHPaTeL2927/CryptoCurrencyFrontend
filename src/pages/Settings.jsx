@@ -1,6 +1,6 @@
 const Settings = () => {
   return (
-    <div className="container mx-auto p-4">
+    <div className="p-4">
       <h1 className="text-2xl font-bold mb-6">Settings</h1>
 
       <div className="grid md:grid-cols-3 gap-6">

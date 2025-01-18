@@ -1,71 +1,85 @@
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import "./index.css";
-import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import ContactUs from "./pages/ContactUs";
-import Portfolio from "./pages/Portfolio";
 import { ThemeProvider } from "./pages/context/themeContext";
-// Market Pages
-import Chart from "./pages/market/Chart";
-import Currencies from "./pages/market/Currencies";
-import Favorites from "./pages/market/Favorites";
+import { AuthProvider } from "./pages/context/AuthContext";
 
-// Content Pages
-import News from "./pages/content/News";
-import Blogs from "./pages/content/Blogs";
+// Dashboard Pages
+import Home from "./pages/Home";
+import Portfolio from "./pages/Portfolio";
+import Watchlist from "./pages/Watchlist";
+
+// Trading Pages
+// import { SpotTrading, FuturesTrading, MarginTrading } from "./pages/Trading";
+import OrderHistory from "./pages/Trading/OrderHistory";
+
+// Market Pages
+import Overview from "./pages/Market/Overview";
+import Charts from "./pages/Market/Chart";
 
 // Web3 Pages
-import NFT from "./pages/web3/NFT";
 import DeFi from "./pages/web3/DeFi";
+import NFT from "./pages/web3/NFT";
 
-// Account Pages
-import Profile from "./pages/account/Profile";
-import Settings from "./pages/account/Settings";
-import Register from "./pages/auth/Register";
-import Login from "./pages/auth/Login";
+// Resources Pages
+import News from "./pages/content/News";
+import Learn from "./pages/content/Learn";
+
+// Settings & Support Pages
+import Settings from "./pages/Settings";
+import Support from "./pages/Support";
+
+// Auth Pages
+import Login from "./pages/Auth/Login";
+import Register from "./pages/Auth/Register";
 import GoogleCallback from "./components/GoogleCallback";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
-    <>
+    <AuthProvider>
       <ThemeProvider>
         <Navbar />
         <Routes>
-          {/* Main Routes */}
+          {/* Dashboard Routes */}
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<ContactUs />} />
           <Route path="/portfolio" element={<Portfolio />} />
-
-          {/* Market Routes */}
-          <Route path="/charts" element={<Chart />} />
-          <Route path="/currencies" element={<Currencies />} />
-          <Route path="/favorites" element={<Favorites />} />
-
-          {/* Content Routes */}
-          <Route path="/news" element={<News />} />
-          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/watchlist" element={<Watchlist />} />
 
           {/* Trading Routes */}
-          {/* <Route path="/trading/spot" element={<SpotTrading />} />
-          <Route path="/trading/futures" element={<Futures />} />
-          <Route path="/trading/margin" element={<Margin />} /> */}
+          <Route path="/trading">
+            {/* <Route path="spot" element={<SpotTrading />} />
+            <Route path="futures" element={<FuturesTrading />} />
+            <Route path="margin" element={<MarginTrading />} /> */}
+            <Route path="history" element={<OrderHistory />} />
+          </Route>
+
+          {/* Market Routes */}
+          <Route path="/market">
+            <Route path="overview" element={<Overview />} />
+            <Route path="charts" element={<Charts />} />
+          </Route>
 
           {/* Web3 Routes */}
-          <Route path="/nft" element={<NFT />} />
           <Route path="/defi" element={<DeFi />} />
+          <Route path="/nft" element={<NFT />} />
 
-          {/* Account Routes */}
-          <Route path="/profile" element={<Profile />} />
+          {/* Resources Routes */}
+          <Route path="/news" element={<News />} />
+          <Route path="/learn" element={<Learn />} />
+
+          {/* Settings & Support Routes */}
           <Route path="/settings" element={<Settings />} />
+          <Route path="/support" element={<Support />} />
 
-          <Route path="/register" element={<Register />} />
+          {/* Auth Routes */}
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/auth/google/callback" element={<GoogleCallback />} />
+          <Route path="/profile" element={<Profile/>}/>
         </Routes>
       </ThemeProvider>
-    </>
+    </AuthProvider>
   );
 }
 
