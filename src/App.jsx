@@ -10,8 +10,10 @@ import Portfolio from "./pages/Portfolio";
 import Watchlist from "./pages/Watchlist";
 
 // Trading Pages
-// import { SpotTrading, FuturesTrading, MarginTrading } from "./pages/Trading";
+import SpotTrading from "./pages/Trading/SpotTrading";
 import OrderHistory from "./pages/Trading/OrderHistory";
+import FuturesTrading from "./pages/Trading/FuturesTrading";
+import MarginTrading from "./pages/Trading/MarginTrading";
 
 // Market Pages
 import Overview from "./pages/Market/Overview";
@@ -48,9 +50,9 @@ function App() {
 
           {/* Trading Routes */}
           <Route path="/trading">
-            {/* <Route path="spot" element={<SpotTrading />} />
+            <Route path="spot" element={<SpotTrading />} />
             <Route path="futures" element={<FuturesTrading />} />
-            <Route path="margin" element={<MarginTrading />} /> */}
+            <Route path="margin" element={<MarginTrading />} />
             <Route path="history" element={<OrderHistory />} />
           </Route>
 

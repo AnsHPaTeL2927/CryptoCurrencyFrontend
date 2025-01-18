@@ -143,7 +143,7 @@ const Navbar = () => {
 
       <div className="drawer-content flex flex-col">
         {/* Navbar */}
-        <div className="navbar bg-base-100 shadow-lg">
+        <div className="navbar bg-base-100 shadow-lg sticky top-0 z-50">
           <div className="navbar-start">
             <label
               htmlFor="drawer-sidebar"
@@ -421,11 +421,13 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Page content here */}
-        <div className="p-4">{/* Your main content */}</div>
+        {/* Main Content */}
+        <div className="flex-1 bg-base-200">
+          {/* Your main content will be rendered here by React Router */}
+        </div>
       </div>
 
-      <div className="drawer-side">
+      <div className="drawer-side z-50">
         <label
           htmlFor="drawer-sidebar"
           aria-label="close sidebar"
