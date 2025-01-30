@@ -170,15 +170,15 @@ const Navbar = () => {
             {/* <a className="btn btn-ghost text-xl">daisyUI</a> */}
             {theme === "dark" ? (
               <img
-                src="public/logo - without background.png"
+                src="public/dark.png"
                 alt=""
-                className="h-10"
+                className="h-12 w-50"
               />
             ) : (
               <img
-                src="public/logo - with background.jpg"
+                src="public/white.png"
                 alt=""
-                className="h-10"
+                className="h-12 w-50"
               />
             )}
           </div>
