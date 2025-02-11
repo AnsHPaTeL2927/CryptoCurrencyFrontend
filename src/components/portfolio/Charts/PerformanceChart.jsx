@@ -1,20 +1,40 @@
 import { useEffect, useRef } from 'react';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+} from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { motion } from 'framer-motion';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
 
-const PerformanceChart = ({ data }) => {
+const PerformanceChart = ({ data = [] }) => {  // Add default empty array
   const chartRef = useRef(null);
 
-  useEffect(() => {
-    return () => {
-      if (chartRef.current) {
-        chartRef.current.destroy();
-      }
-    };
-  }, []);
+  // Early return with loading state if no data
+  if (!data || data.length === 0) {
+    return (
+      <div className="h-[400px] w-full flex items-center justify-center">
+        <div className="text-base-content/60">No performance data available</div>
+      </div>
+    );
+  }
 
   const options = {
     responsive: true,
@@ -98,6 +118,5 @@ const PerformanceChart = ({ data }) => {
     </motion.div>
   );
 };
-
 
 export default PerformanceChart;
