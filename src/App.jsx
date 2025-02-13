@@ -5,7 +5,7 @@ import { ThemeProvider } from "./pages/context/themeContext";
 import { AuthProvider } from "./pages/context/AuthContext";
 
 // Dashboard Pages
-import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
 import Portfolio from "./pages/Portfolio";
 import Watchlist from "./pages/Watchlist";
 
@@ -44,7 +44,7 @@ function App() {
         <Navbar />
         <Routes>
           {/* Dashboard Routes */}
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Dashboard />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/watchlist" element={<Watchlist />} />
 
