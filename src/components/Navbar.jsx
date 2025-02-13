@@ -10,6 +10,9 @@ const Navbar = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isXsScreen, setIsXsScreen] = useState(false);
+  const [isSmScreen, setIsSmScreen] = useState(false);
   const [notifications, setNotifications] = useState([
     {
       id: 1,
@@ -33,6 +36,21 @@ const Navbar = () => {
       type: "info",
     },
   ]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsXsScreen(window.innerWidth < 480);
+      setIsSmScreen(window.innerWidth < 640);
+      if (window.innerWidth >= 768) {
+        setIsDrawerOpen(false);
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const searchRef = useRef(null);
 
@@ -131,6 +149,31 @@ const Navbar = () => {
     }
   };
 
+  const ThemeToggle = () => (
+    <label className="swap swap-rotate">
+      <input
+        type="checkbox"
+        className="theme-controller"
+        checked={theme === "dark"}
+        onChange={toggleTheme}
+      />
+      <svg
+        className="swap-off h-4 w-4 sm:h-5 sm:w-5 fill-current"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+      >
+        <path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z" />
+      </svg>
+      <svg
+        className="swap-on h-4 w-4 sm:h-5 sm:w-5 fill-current"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+      >
+        <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" />
+      </svg>
+    </label>
+  );
+
   return (
     <div className="drawer">
       <input
@@ -143,8 +186,8 @@ const Navbar = () => {
 
       <div className="drawer-content flex flex-col">
         {/* Navbar */}
-        <div className="navbar bg-base-100 shadow-lg sticky top-0 z-50">
-          <div className="navbar-start">
+        <div className="navbar bg-base-100 shadow-lg sticky top-0 z-50 min-h-[3rem] sm:min-h-[3.5rem] md:min-h-[4rem] px-2 sm:px-4 flex justify-between">
+          <div className="navbar-start w-1/4 min-w-fit">
             <label
               htmlFor="drawer-sidebar"
               className="btn btn-ghost btn-circle drawer-button"
@@ -166,70 +209,48 @@ const Navbar = () => {
             </label>
           </div>
 
-          <div className="navbar-center">
-            {/* <a className="btn btn-ghost text-xl">daisyUI</a> */}
-            {theme === "dark" ? (
+          <div className="navbar-center w-1/2 flex justify-center">
+            <div className="w-32 xs:w-36 sm:w-40 md:w-44 flex justify-center">
               <img
-                src="public/dark.png"
-                alt=""
-                className="h-12 w-50"
+                src={theme === "dark" ? "/dark.png" : "/white.png"}
+                alt="CoinStream Logo"
+                className="h-6 xs:h-7 sm:h-8 md:h-10 w-auto transition-all duration-300"
               />
-            ) : (
-              <img
-                src="public/white.png"
-                alt=""
-                className="h-12 w-50"
-              />
-            )}
+            </div>
           </div>
 
-          <div className="navbar-end">
+          <div className="navbar-end flex items-center gap-1 sm:gap-2">
             {/* Search with animation */}
-            <div className="relative flex items-center" ref={searchRef}>
+            {user && (
               <div
-                className={`absolute right-0 flex items-center transition-all duration-300 ease-in-out ${
-                  isSearchOpen ? "w-64 opacity-100" : "w-0 opacity-0"
-                }`}
+                className="relative hidden sm:flex items-center"
+                ref={searchRef}
               >
-                <input
-                  type="search"
-                  placeholder="Search..."
-                  className="input input-bordered w-full h-9 pr-8"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-              <button
-                className="btn btn-ghost btn-circle"
-                onClick={toggleSearch}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+                <div
+                  className={`
+                  absolute right-0 flex items-center transition-all duration-300 ease-in-out
+                  ${
+                    isSearchOpen
+                      ? "w-[calc(100vw-4rem)] sm:w-40 md:w-64 opacity-100"
+                      : "w-0 opacity-0"
+                  }
+                `}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  <input
+                    type="search"
+                    placeholder="Search..."
+                    className="input input-bordered w-full h-8 sm:h-9 text-sm"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                   />
-                </svg>
-              </button>
-            </div>
-
-            {/* Notifications */}
-            <div className="dropdown dropdown-end">
-              <button
-                className="btn btn-ghost btn-circle ml-2"
-                onClick={toggleNotifications}
-              >
-                <div className="indicator">
+                </div>
+                <button
+                  className="btn btn-ghost btn-circle btn-sm sm:btn-md"
+                  onClick={toggleSearch}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
+                    className="h-4 w-4 sm:h-5 sm:w-5"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -238,85 +259,126 @@ const Navbar = () => {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth="2"
-                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                     />
                   </svg>
-                  {unreadCount > 0 && (
-                    <span className="badge badge-primary badge-xs indicator-item">
-                      {unreadCount}
-                    </span>
-                  )}
-                </div>
-              </button>
-              {showNotifications && (
-                <div className="dropdown-content mt-3 z-[1] card card-compact w-96 shadow bg-base-100">
-                  <div className="card-body">
-                    <div className="flex justify-between items-center">
-                      <h3 className="font-bold text-lg">Notifications</h3>
-                      {unreadCount > 0 && (
-                        <span className="text-sm text-base-content/70">
-                          {unreadCount} unread
-                        </span>
-                      )}
-                    </div>
-                    <div className="divider my-0"></div>
-                    {notifications.map((notif) => (
-                      <div
-                        key={notif.id}
-                        onClick={() => handleNotificationClick(notif.id)}
-                        className={`flex items-start gap-3 cursor-pointer p-3 rounded-lg transition-all duration-200 ${
-                          !notif.read
-                            ? "bg-primary/10 hover:bg-primary/20"
-                            : "hover:bg-base-200"
-                        }`}
-                      >
-                        <div
-                          className={`mt-1 ${
-                            !notif.read ? "animate-pulse" : ""
-                          }`}
-                        >
-                          {getNotificationIcon(notif.type)}
-                        </div>
-                        <div className="flex-1">
-                          <p
-                            className={`text-sm ${
-                              !notif.read ? "font-medium" : ""
-                            }`}
-                          >
-                            {notif.message}
-                          </p>
-                          <p className="text-xs text-base-content/70 mt-1">
-                            {notif.time}
-                          </p>
-                        </div>
-                        {!notif.read && (
-                          <div className="w-2 h-2 rounded-full bg-primary mt-2"></div>
+                </button>
+              </div>
+            )}
+
+            {/* Notifications */}
+            {user && (
+              <div className="dropdown dropdown-end">
+                <button
+                  className="btn btn-ghost btn-circle btn-sm sm:btn-md"
+                  onClick={toggleNotifications}
+                >
+                  <div className="indicator">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4 sm:h-5 sm:w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                      />
+                    </svg>
+                    {unreadCount > 0 && (
+                      <span className="badge badge-primary badge-xs indicator-item">
+                        {unreadCount}
+                      </span>
+                    )}
+                  </div>
+                </button>
+                {showNotifications && (
+                  <div
+                    className={`
+                    dropdown-content mt-3 z-[1] card card-compact shadow bg-base-100
+                    w-[calc(100vw-2rem)] sm:w-80 md:w-96 
+                    fixed sm:absolute 
+                    left-4 right-4 sm:left-auto sm:right-0
+                    ${isXsScreen ? "top-16" : "top-auto"}
+                  `}
+                  >
+                    <div className="card-body">
+                      <div className="flex justify-between items-center">
+                        <h3 className="font-bold text-lg">Notifications</h3>
+                        {unreadCount > 0 && (
+                          <span className="text-sm text-base-content/70">
+                            {unreadCount} unread
+                          </span>
                         )}
                       </div>
-                    ))}
+                      <div className="divider my-0"></div>
+                      {notifications.map((notif) => (
+                        <div
+                          key={notif.id}
+                          onClick={() => handleNotificationClick(notif.id)}
+                          className={`flex items-start gap-3 cursor-pointer p-3 rounded-lg transition-all duration-200 ${
+                            !notif.read
+                              ? "bg-primary/10 hover:bg-primary/20"
+                              : "hover:bg-base-200"
+                          }`}
+                        >
+                          <div
+                            className={`mt-1 ${
+                              !notif.read ? "animate-pulse" : ""
+                            }`}
+                          >
+                            {getNotificationIcon(notif.type)}
+                          </div>
+                          <div className="flex-1">
+                            <p
+                              className={`text-sm ${
+                                !notif.read ? "font-medium" : ""
+                              }`}
+                            >
+                              {notif.message}
+                            </p>
+                            <p className="text-xs text-base-content/70 mt-1">
+                              {notif.time}
+                            </p>
+                          </div>
+                          {!notif.read && (
+                            <div className="w-2 h-2 rounded-full bg-primary mt-2"></div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
+            )}
 
             {/* User Avatar Dropdown - Add this before the Theme Toggle */}
             {user ? (
-              <div className="dropdown dropdown-end ml-2">
-                <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                  <div className="w-10 rounded-full">
+              <div className="dropdown dropdown-end ml-1 sm:ml-2">
+                <label
+                  tabIndex={0}
+                  className="btn btn-ghost btn-circle avatar btn-sm sm:btn-md"
+                >
+                  <div className="w-8 sm:w-10 rounded-full ring-2 ring-offset-2 ring-primary ring-offset-base-100">
                     <img
                       src={
                         user.photoURL ||
-                        "https://api.dicebear.com/7.x/initials/svg?seed=" +
-                          user.name
+                        `https://api.dicebear.com/7.x/initials/svg?seed=${user.name}`
                       }
                       alt="User avatar"
+                      className="object-cover"
                     />
                   </div>
                 </label>
                 <ul
-                  tabIndex={0}
-                  className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+                  className={`
+                    mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box
+                    w-48 sm:w-52
+                    ${isXsScreen ? "fixed right-4 top-16" : "absolute"}
+                  `}
                 >
                   <li>
                     <Link to="/profile" onClick={handleLinkClick}>
@@ -385,39 +447,23 @@ const Navbar = () => {
                 </ul>
               </div>
             ) : (
-              <div className="flex gap-2">
-                <Link to="/login" className="btn btn-ghost">
+              <div className="flex gap-1 sm:gap-2">
+                <Link to="/login" className="btn btn-primary btn-sm sm:btn-md">
                   Login
                 </Link>
-                <Link to="/register" className="btn btn-primary">
+                <Link
+                  to="/register"
+                  className="hidden sm:flex btn btn-ghost btn-sm sm:btn-md"
+                >
                   Register
                 </Link>
               </div>
             )}
 
             {/* Theme Toggle */}
-            <label className="swap swap-rotate ml-5 mr-5">
-              <input
-                type="checkbox"
-                className="theme-controller"
-                checked={theme === "dark"}
-                onChange={toggleTheme}
-              />
-              <svg
-                className="swap-off h-5 w-5 fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-              >
-                <path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z" />
-              </svg>
-              <svg
-                className="swap-on h-5 w-5 fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-              >
-                <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" />
-              </svg>
-            </label>
+            <div className="hidden md:block ml-2">
+              <ThemeToggle />
+            </div>
           </div>
         </div>
 
@@ -427,14 +473,35 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className="drawer-side z-50">
+      <div
+        className={`drawer-side z-50 transition-transform duration-300
+        ${isDrawerOpen ? "translate-x-0" : "-translate-x-full"}`}
+      >
         <label
           htmlFor="drawer-sidebar"
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
 
-        <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+        <ul className="menu p-3 xs:p-4 w-[280px] xs:w-72 sm:w-80 min-h-full bg-base-200 text-base-content">
+          <li className="md:hidden mb-4">
+            <div className="flex items-center justify-between">
+              <span>Theme</span>
+              <ThemeToggle />
+            </div>
+          </li>
+
+          {!user && (
+            <li className="sm:hidden mb-4">
+              <Link
+                to="/register"
+                onClick={handleLinkClick}
+                className="btn btn-primary btn-sm"
+              >
+                Register
+              </Link>
+            </li>
+          )}
           {/* Dashboard Section */}
           <li className="menu-title">
             <span>Dashboard</span>

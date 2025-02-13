@@ -33,11 +33,13 @@ export default {
         10: "2.5rem", // 40px
         12: "3rem", // 48px
         16: "4rem", // 64px
+        '18': '4.5rem',
         20: "5rem", // 80px
         24: "6rem", // 96px
         32: "8rem", // 128px
       },
       screens: {
+        'xs': '480px',
         sm: "640px", // Small devices
         md: "768px", // Tablets
         lg: "1024px", // Laptops
