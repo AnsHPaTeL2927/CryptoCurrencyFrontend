@@ -268,7 +268,7 @@ const Navbar = () => {
 
             {/* Notifications */}
             {user && (
-              <div className="dropdown dropdown-end">
+              <div className="dropdown dropdown-end relative">
                 <button
                   className="btn btn-ghost btn-circle btn-sm sm:btn-md"
                   onClick={toggleNotifications}
@@ -298,14 +298,26 @@ const Navbar = () => {
                 {showNotifications && (
                   <div
                     className={`
-                    dropdown-content mt-3 z-[1] card card-compact shadow bg-base-100
-                    w-[calc(100vw-2rem)] sm:w-80 md:w-96 
-                    fixed sm:absolute 
-                    left-4 right-4 sm:left-auto sm:right-0
-                    ${isXsScreen ? "top-16" : "top-auto"}
-                  `}
+                      dropdown-content z-[100] card card-compact shadow-lg bg-base-100
+                      absolute 
+                      right-0 sm:right-0 
+                      mt-3
+                      w-[calc(100vw-2rem)] sm:w-80 md:w-96 
+                      max-h-[calc(100vh-12rem)] 
+                      overflow-y-auto
+                      origin-top-right
+                    `}
+                    style={{
+                      position: "fixed",
+                      top: "4rem", // Navbar height
+                      right: "1rem",
+                      "@media (min-width: 640px)": {
+                        position: "absolute",
+                        top: "auto",
+                      },
+                    }}
                   >
-                    <div className="card-body">
+                    <div className="card-body p-3 sm:p-4">
                       <div className="flex justify-between items-center">
                         <h3 className="font-bold text-lg">Notifications</h3>
                         {unreadCount > 0 && (
@@ -315,40 +327,46 @@ const Navbar = () => {
                         )}
                       </div>
                       <div className="divider my-0"></div>
-                      {notifications.map((notif) => (
-                        <div
-                          key={notif.id}
-                          onClick={() => handleNotificationClick(notif.id)}
-                          className={`flex items-start gap-3 cursor-pointer p-3 rounded-lg transition-all duration-200 ${
-                            !notif.read
-                              ? "bg-primary/10 hover:bg-primary/20"
-                              : "hover:bg-base-200"
-                          }`}
-                        >
+                      <div className="space-y-2">
+                        {notifications.map((notif) => (
                           <div
-                            className={`mt-1 ${
-                              !notif.read ? "animate-pulse" : ""
-                            }`}
+                            key={notif.id}
+                            onClick={() => handleNotificationClick(notif.id)}
+                            className={`
+                              flex items-start gap-3 p-3 rounded-lg cursor-pointer
+                              transition-all duration-200
+                              ${
+                                !notif.read
+                                  ? "bg-primary/10 hover:bg-primary/20"
+                                  : "hover:bg-base-200"
+                              }
+                            `}
                           >
-                            {getNotificationIcon(notif.type)}
-                          </div>
-                          <div className="flex-1">
-                            <p
-                              className={`text-sm ${
-                                !notif.read ? "font-medium" : ""
+                            <div
+                              className={`mt-1 ${
+                                !notif.read ? "animate-pulse" : ""
                               }`}
                             >
-                              {notif.message}
-                            </p>
-                            <p className="text-xs text-base-content/70 mt-1">
-                              {notif.time}
-                            </p>
+                              {getNotificationIcon(notif.type)}
+                            </div>
+                            <div className="flex-1">
+                              <p
+                                className={`text-sm ${
+                                  !notif.read ? "font-medium" : ""
+                                }`}
+                              >
+                                {notif.message}
+                              </p>
+                              <p className="text-xs text-base-content/70 mt-1">
+                                {notif.time}
+                              </p>
+                            </div>
+                            {!notif.read && (
+                              <div className="w-2 h-2 rounded-full bg-primary mt-2"></div>
+                            )}
                           </div>
-                          {!notif.read && (
-                            <div className="w-2 h-2 rounded-full bg-primary mt-2"></div>
-                          )}
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )}
