@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import AnimatePulseBedge from '../common/AnimatePulseBedge';
 
 const TopMovers = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -47,15 +48,13 @@ const TopMovers = () => {
 
   return (
     <div className="card bg-base-100 shadow-xl">
-      <div className="card-body p-4">
+      <div className="card-body">
         {/* Dynamic Header */}
         <div className="flex justify-between items-center mb-4">
-          <div className="flex items-center gap-2">
             <h2 className="card-title text-lg">
               Top {movers[currentSlide].type === 'gainers' ? 'Gainers 📈' : 'Losers 📉'}
             </h2>
-            <div className="badge badge-primary animate-pulse">Live</div>
-          </div>
+            <AnimatePulseBedge color='error'/>
         </div>
 
         {/* Enhanced Carousel */}

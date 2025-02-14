@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import AnimatePulseBedge from '../common/AnimatePulseBedge';
 
 const GasTracker = () => {
   const [networks, setNetworks] = useState([
@@ -94,7 +95,7 @@ const GasTracker = () => {
       <div className="card-body">
         <div className="flex justify-between items-center mb-4">
           <h2 className="card-title">Gas Tracker</h2>
-          <div className="badge badge-primary animate-pulse">Live</div>
+          <AnimatePulseBedge color='error'/>
         </div>
 
         <div className="space-y-4">

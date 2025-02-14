@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import AnimatePulseBedge from "../common/AnimatePulseBedge";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -111,7 +112,7 @@ const PortfolioSummary = ({
           <div>
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-semibold">Asset Allocation</h3>
-              <div className="badge badge-primary badge-outline">4 Assets</div>
+              <AnimatePulseBedge text="4 Assets" className="badge-outline"/>
             </div>
 
             <div className="relative">
