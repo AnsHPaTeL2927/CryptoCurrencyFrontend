@@ -43,20 +43,6 @@ const MarketSentiment = () => {
     return 'text-error';
   };
 
-  const getSignalColor = (signal) => {
-    switch (signal.toLowerCase()) {
-      case 'buy': return 'text-success';
-      case 'sell': return 'text-error';
-      default: return 'text-warning';
-    }
-  };
-
-  const getSentimentEmoji = (sentiment) => {
-    if (sentiment >= 75) return '🚀';
-    if (sentiment >= 50) return '📈';
-    if (sentiment >= 25) return '📉';
-    return '🐻';
-  };
 
   const renderProgressBar = (value, color = 'primary') => (
     <div className="w-full bg-base-200 rounded-full h-2">
@@ -76,7 +62,7 @@ const MarketSentiment = () => {
         <div className="flex justify-between items-center mb-4">
           <h2 className="card-title text-lg">Market Sentiment</h2>
           <div className="badge badge-primary gap-1">
-            Live {getSentimentEmoji(sentiment.bullish)}
+            Live
           </div>
         </div>
 

@@ -37,13 +37,13 @@ const LiveTradesFeed = () => {
                 <div className={`w-2 h-2 rounded-full ${trade.type === 'buy' ? 'bg-success' : 'bg-error'}`}></div>
                 <span className="font-mono">{trade.pair}</span>
               </div>
-              <div className="flex items-center gap-4">
-                <span className={`font-mono ${trade.type === 'buy' ? 'text-success' : 'text-error'}`}>
+              <div className="text-right">
+                <div className={`font-mono ${trade.type === 'buy' ? 'text-success' : 'text-error'}`}>
                   ${trade.price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </span>
-                <span className="text-xs opacity-60">
+                </div>
+                <div className="text-xs opacity-60">
                   {new Date(trade.time).toLocaleTimeString()}
-                </span>
+                </div>
               </div>
             </div>
           ))}

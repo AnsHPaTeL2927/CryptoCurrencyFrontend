@@ -149,13 +149,19 @@ const PortfolioSummary = ({
           </div>
 
           {/* Quick Actions */}
-          <div className="space-y-3">
-            <h3 className="font-semibold">Quick Actions</h3>
-            <div className="grid grid-cols-2 gap-3">
-              <button className="btn btn-primary btn-block">
+          <div className="space-y-2">
+            {" "}
+            {/* Reduced space-y */}
+            <h3 className="font-semibold text-sm">Quick Actions</h3>
+            <div className="flex gap-2">
+              {" "}
+              {/* Changed to flex from grid */}
+              <button className="btn btn-primary btn-sm flex-1 h-10">
+                {" "}
+                {/* Added flex-1 and h-10 */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-2"
+                  className="h-4 w-4 mr-1"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -167,12 +173,14 @@ const PortfolioSummary = ({
                     d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                   />
                 </svg>
-                Add Funds
+                Add
               </button>
-              <button className="btn btn-outline btn-block">
+              <button className="btn btn-outline btn-sm flex-1 h-10">
+                {" "}
+                {/* Added flex-1 and h-10 */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-2"
+                  className="h-4 w-4 mr-1"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -185,40 +193,6 @@ const PortfolioSummary = ({
                   />
                 </svg>
                 Withdraw
-              </button>
-              <button className="btn btn-secondary btn-block">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"
-                  />
-                </svg>
-                Trade Crypto
-              </button>
-              <button className="btn btn-ghost btn-block">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 mr-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                  />
-                </svg>
-                History
               </button>
             </div>
           </div>
