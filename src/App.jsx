@@ -37,6 +37,8 @@ import Register from "./pages/Auth/Register";
 import GoogleCallback from "./components/GoogleCallback";
 import Profile from "./pages/Profile";
 
+import Footer from "./components/Footer";
+
 function App() {
   return (
     <AuthProvider>
@@ -78,8 +80,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/auth/google/callback" element={<GoogleCallback />} />
-          <Route path="/profile" element={<Profile/>}/>
+          <Route path="/profile" element={<Profile />} />
         </Routes>
+        <Footer />
       </ThemeProvider>
     </AuthProvider>
   );
