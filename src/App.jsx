@@ -16,7 +16,7 @@ import FuturesTrading from "./pages/Trading/FuturesTrading";
 import MarginTrading from "./pages/Trading/MarginTrading";
 
 // Market Pages
-import Overview from "./pages/Market/Overview";
+import MarketOverview from "./pages/market/MarketOverview";
 import Charts from "./pages/Market/Chart";
 
 // Web3 Pages
@@ -60,7 +60,7 @@ function App() {
 
           {/* Market Routes */}
           <Route path="/market">
-            <Route path="overview" element={<Overview />} />
+            <Route path="overview" element={<MarketOverview />} />
             <Route path="charts" element={<Charts />} />
           </Route>
 
