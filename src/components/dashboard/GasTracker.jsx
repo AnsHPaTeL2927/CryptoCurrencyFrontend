@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import AnimatePulseBedge from '../common/AnimatePulseBedge';
 
-const GasTracker = () => {
+const GasTracker = ({theme}) => {
   const [networks, setNetworks] = useState([
     {
       name: 'Ethereum',
@@ -95,7 +95,7 @@ const GasTracker = () => {
       <div className="card-body">
         <div className="flex justify-between items-center mb-4">
           <h2 className="card-title">Gas Tracker</h2>
-          <AnimatePulseBedge color='error'/>
+          <AnimatePulseBedge theme={theme} color='error'/>
         </div>
 
         <div className="space-y-4">

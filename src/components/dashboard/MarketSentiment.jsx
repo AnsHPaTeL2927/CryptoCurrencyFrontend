@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import AnimatePulseBedge from '../common/AnimatePulseBedge';
 
-const MarketSentiment = () => {
+const MarketSentiment = ({theme}) => {
   const [sentiment, setSentiment] = useState({
     bullish: 65,
     bearish: 35,
@@ -62,7 +62,7 @@ const MarketSentiment = () => {
         {/* Header with Overall Sentiment */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="card-title text-lg">Market Sentiment</h2>
-          <AnimatePulseBedge color='error'/>
+          <AnimatePulseBedge theme={theme} color='error'/>
         </div>
 
         {/* Main Sentiment Gauge */}

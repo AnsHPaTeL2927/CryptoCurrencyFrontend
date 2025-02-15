@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import AnimatePulseBedge from "../common/AnimatePulseBedge";
-const LiveTradesFeed = () => {
+const LiveTradesFeed = ({ theme }) => {
   const [trades, setTrades] = useState([
     {
       id: 1,
@@ -48,7 +49,7 @@ const LiveTradesFeed = () => {
       <div className="card-body">
         <div className="flex justify-between items-center mb-4">
           <h2 className="card-title text-lg">Live Trades</h2>
-          <AnimatePulseBedge color="error" />
+          <AnimatePulseBedge theme={theme} color="error" />
         </div>
         <div className="space-y-4">
           {trades.map((trade) => (

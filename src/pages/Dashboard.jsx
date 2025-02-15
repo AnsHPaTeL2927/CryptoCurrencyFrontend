@@ -3,16 +3,18 @@ import { motion } from "framer-motion";
 import MarketOverview from "../components/dashboard/MarketOverview";
 import PortfolioSummary from "../components/dashboard/PortfolioSummary";
 import RecentActivities from "../components/dashboard/RecentActivities";
-import NewsSection from "../components/dashboard/NewsSection";
+// import NewsSection from "../components/dashboard/NewsSection";
 import WelcomeBanner from "../components/dashboard/WelcomeBanner";
 import MarketSentiment from "../components/dashboard/MarketSentiment";
 import LiveTradesFeed from "../components/dashboard/LiveTradesFeed";
 import TopMovers from "../components/dashboard/TopMovers";
 import GasTracker from "../components/dashboard/GasTracker";
 import DashboardSkeleton from "../components/dashboard/DashboardSkeleton";
+import { useTheme } from "./context/ThemeContext";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
+  const { theme } = useTheme();
   const [dashboardData, setDashboardData] = useState({
     user: {
       name: "John Doe",
@@ -104,7 +106,7 @@ const Dashboard = () => {
             animate={{ opacity: 1, x: 0 }}
             className="lg:col-span-3"
           >
-            <LiveTradesFeed />
+            <LiveTradesFeed theme={theme}/>
           </motion.div>
         </div>
 
@@ -128,10 +130,10 @@ const Dashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             className="md:col-span-2 lg:col-span-6 order-3 lg:order-2 space-y-4"
           >
-            <TopMovers />
+            <TopMovers theme={theme}/>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <RecentActivities activities={dashboardData.recentActivities} />
-              <MarketSentiment />
+              <MarketSentiment theme={theme}/>
             </div>
           </motion.div>
 
@@ -141,7 +143,7 @@ const Dashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             className="md:col-span-1 lg:col-span-3 order-2 lg:order-3"
           >
-            <GasTracker />
+            <GasTracker theme={theme}/>
           </motion.div>
         </div>
       </div>

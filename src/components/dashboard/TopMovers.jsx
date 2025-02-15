@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import AnimatePulseBedge from '../common/AnimatePulseBedge';
 
-const TopMovers = () => {
+const TopMovers = ({theme}) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
@@ -54,7 +54,7 @@ const TopMovers = () => {
             <h2 className="card-title text-lg">
               Top {movers[currentSlide].type === 'gainers' ? 'Gainers 📈' : 'Losers 📉'}
             </h2>
-            <AnimatePulseBedge color='error'/>
+            <AnimatePulseBedge theme={theme} color='error'/>
         </div>
 
         {/* Enhanced Carousel */}
