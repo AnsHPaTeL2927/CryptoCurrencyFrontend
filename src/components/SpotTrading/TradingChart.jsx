@@ -78,7 +78,7 @@ const TradingChart = ({ symbol = "BTC/USDT" }) => {
       fontFamily: "Inter, sans-serif",
       foreColor: "#999",
       toolbar: { show: false },
-      zoom: { enabled: true, type: "x", autoScaleYaxis: true },
+      zoom: { enabled: true, type: "xy", autoScaleYaxis: true },
       animations: {
         enabled: true,
         easing: "easeinout",
