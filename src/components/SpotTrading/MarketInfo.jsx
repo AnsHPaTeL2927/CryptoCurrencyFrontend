@@ -66,29 +66,32 @@ const MarketInfo = () => {
 
   return (
     <div className="relative">
-      <div className="card bg-base-100 shadow-xl mb-4">
-        <div className="card-body p-4">
-          <div className="flex flex-wrap gap-4 lg:gap-8 items-start">
-            {/* Symbol Selector */}
-            <div className="relative">
+      <div className="card bg-base-100 shadow-xl">
+        <div className="card-body p-2 sm:p-4">
+          {/* Main Content Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-wrap gap-4 items-start">
+            {/* Symbol Selector - Full width on mobile */}
+            <div className="relative col-span-1 sm:col-span-2 lg:w-auto">
               <div 
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="flex items-center gap-2 cursor-pointer"
               >
-                <span className="text-warning text-2xl">★</span>
+                <span className="text-warning text-xl sm:text-2xl">★</span>
                 <div>
-                  <h2 className="text-2xl font-bold flex items-center gap-2">
+                  <h2 className="text-lg sm:text-2xl font-bold flex items-center gap-2">
                     {selectedPair.symbol}
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-4 h-4 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-4 h-4 stroke-current">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
                   </h2>
-                  <span className="text-sm opacity-70">{selectedPair.name}</span>
+                  <span className="text-xs sm:text-sm opacity-70">{selectedPair.name}</span>
                 </div>
               </div>
 
-              {/* Dropdown Content */}
+              {/* Dropdown - Full screen on mobile */}
               {isDropdownOpen && (
-                <div className="absolute top-full left-0 mt-2 bg-base-200 rounded-lg shadow-xl w-80 z-50">
-                  <div className="p-2 bg-base-100 rounded-t-lg border-b border-base-300">
+                <div className="fixed sm:absolute inset-0 sm:inset-auto sm:top-full sm:left-0 mt-2 bg-base-200 sm:rounded-lg shadow-xl z-50 sm:w-80">
+                  <div className="p-2 bg-base-100 sm:rounded-t-lg border-b border-base-300">
                     <input 
                       type="text" 
                       placeholder="Search" 
@@ -103,14 +106,14 @@ const MarketInfo = () => {
                     </div>
                   </div>
 
-                  <div className="max-h-96 overflow-y-auto bg-base-100">
+                  <div className="max-h-[80vh] sm:max-h-96 overflow-y-auto bg-base-100">
                     <table className="table table-compact w-full">
                       <thead className="sticky top-0 bg-base-100 z-10">
                         <tr className="bg-base-100">
                           <th className="bg-base-100">Name</th>
                           <th className="bg-base-100">Last Price</th>
                           <th className="bg-base-100">24h Chg.</th>
-                          <th className="bg-base-100">24h Vol.</th>
+                          <th className="bg-base-100 hidden sm:table-cell">24h Vol.</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -137,7 +140,7 @@ const MarketInfo = () => {
                             <td className={`bg-base-100 ${Number(pair.change) >= 0 ? 'text-success' : 'text-error'}`}>
                               {pair.change}%
                             </td>
-                            <td className="bg-base-100">${pair.volume}</td>
+                            <td className="bg-base-100 hidden sm:table-cell">${pair.volume}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -149,7 +152,7 @@ const MarketInfo = () => {
 
             {/* Price and Change */}
             <div className="flex items-center gap-4">
-              <div className="text-xl font-semibold">${selectedPair.price}</div>
+              <div className="text-base sm:text-xl font-semibold">${selectedPair.price}</div>
               <span className={`text-sm ${
                 Number(selectedPair.change) >= 0 ? 'text-success' : 'text-error'
               }`}>
@@ -157,27 +160,31 @@ const MarketInfo = () => {
               </span>
             </div>
 
-            {/* Market Stats */}
-            <div className="flex flex-wrap gap-4 lg:gap-8 ml-auto text-sm">
-              <div className="flex flex-col">
-                <span className="opacity-70">Funding</span>
-                <span>{marketData.fundingRate}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="opacity-70">Est. Next Funding</span>
-                <span>{marketData.estNextFunding}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="opacity-70">Next Funding In</span>
-                <span>{marketData.nextFundingIn}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="opacity-70">24h High</span>
-                <span>{marketData.h24High}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="opacity-70">24h Low</span>
-                <span>{marketData.h24Low}</span>
+            {/* Market Stats - Scrollable container on mobile */}
+            <div className="col-span-1 sm:col-span-2 lg:ml-auto">
+              <div className="overflow-x-auto">
+                <div className="flex gap-4 lg:gap-8 min-w-max lg:min-w-0 pb-2 lg:pb-0">
+                  <div className="flex flex-col">
+                    <span className="text-xs sm:text-sm opacity-70">Funding</span>
+                    <span className="text-xs sm:text-sm">{marketData.fundingRate}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xs sm:text-sm opacity-70">Est. Next Funding</span>
+                    <span className="text-xs sm:text-sm">{marketData.estNextFunding}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xs sm:text-sm opacity-70">Next Funding In</span>
+                    <span className="text-xs sm:text-sm">{marketData.nextFundingIn}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xs sm:text-sm opacity-70">24h High</span>
+                    <span className="text-xs sm:text-sm">{marketData.h24High}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xs sm:text-sm opacity-70">24h Low</span>
+                    <span className="text-xs sm:text-sm">{marketData.h24Low}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -187,7 +194,7 @@ const MarketInfo = () => {
       {/* Backdrop */}
       {isDropdownOpen && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 sm:hidden"
           onClick={() => setIsDropdownOpen(false)}
         ></div>
       )}
