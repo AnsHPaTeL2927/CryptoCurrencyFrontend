@@ -75,11 +75,39 @@ function App() {
           />
 
           {/* Trading Routes */}
-          <Route path="/trading" element={<ProtectedRoute></ProtectedRoute>}>
-            <Route path="spot" element={<SpotTrading />} />
-            <Route path="futures" element={<FuturesTrading />} />
-            <Route path="margin" element={<MarginTrading />} />
-            <Route path="history" element={<OrderHistory />} />
+          <Route path="/trading">
+            <Route
+              path="spot"
+              element={
+                <ProtectedRoute>
+                  <SpotTrading />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="futures"
+              element={
+                <ProtectedRoute>
+                  <FuturesTrading />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="margin"
+              element={
+                <ProtectedRoute>
+                  <MarginTrading />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="history"
+              element={
+                <ProtectedRoute>
+                  <OrderHistory />
+                </ProtectedRoute>
+              }
+            />
           </Route>
 
           {/* Market Routes */}
