@@ -89,7 +89,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('token', data.data.token);
         setUser(data.data.user);
         showToast('Successfully logged in!', 'success');
-        navigate('/');
+        navigate('/dashboard');
         return { success: true };
       } else {
         throw new Error(data.message || 'Login failed');
@@ -122,7 +122,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("token", data.data.token);
         setUser(data.data.user);
         showToast("Register Successfully", 'success')
-        navigate('/');
+        navigate('/dashboard');
         return { success: true };
       } else {
         throw new Error(data.message || "Registration failed");
@@ -213,7 +213,7 @@ export const AuthProvider = ({ children }) => {
           localStorage.setItem('token', data.data.token);
           setUser(data.data.user);
           showToast('Successfully logged in with Google!', 'success');
-          navigate('/');
+          navigate('/dashboard');
         }
       } catch (error) {
         console.error('Google auth error:', error);

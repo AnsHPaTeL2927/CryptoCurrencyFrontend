@@ -9,7 +9,7 @@ const ProtectedRoute = ({ children }) => {
     const checkAuthentication = async () => {
       try {
         // Retrieve the authentication token
-        const token = localStorage.getItem("authToken");
+        const token = localStorage.getItem("token");
 
         if (!token) {
           redirectToLogin();
@@ -28,7 +28,9 @@ const ProtectedRoute = ({ children }) => {
           }
         );
 
-        if (response.ok) {
+        const data = await response.json();
+
+        if (data.status === "success") {
           // Token is valid
           setIsAuthenticated(true);
         } else {
