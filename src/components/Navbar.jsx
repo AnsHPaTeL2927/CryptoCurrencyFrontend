@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useTheme } from "../pages/context/themeContext";
 import { useAuth } from "../pages/context/AuthContext";
 import { Link } from "react-router-dom";
+import { LayoutDashboard } from "lucide-react";
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
@@ -188,34 +189,38 @@ const Navbar = () => {
         {/* Navbar */}
         <div className="navbar bg-base-100 shadow-lg sticky top-0 z-50 min-h-[3rem] sm:min-h-[3.5rem] md:min-h-[4rem] px-2 sm:px-4 flex justify-between">
           <div className="navbar-start w-1/4 min-w-fit">
-            <label
-              htmlFor="drawer-sidebar"
-              className="btn btn-ghost btn-circle drawer-button"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+            {user && (
+              <label
+                htmlFor="drawer-sidebar"
+                className="btn btn-ghost btn-circle drawer-button"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h7"
-                />
-              </svg>
-            </label>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4 6h16M4 12h16M4 18h7"
+                  />
+                </svg>
+              </label>
+            )}
           </div>
 
           <div className="navbar-center w-1/2 flex justify-center">
             <div className="w-32 xs:w-36 sm:w-40 md:w-44 flex justify-center">
-              <img
-                src={theme === "dark" ? "/dark.png" : "/white.png"}
-                alt="CoinStream Logo"
-                className="h-6 xs:h-7 sm:h-8 md:h-10 w-auto transition-all duration-300"
-              />
+              <Link to="/">
+                <img
+                  src={theme === "dark" ? "/dark.png" : "/white.png"}
+                  alt="CoinStream Logo"
+                  className="h-6 xs:h-7 sm:h-8 md:h-10 w-auto transition-all duration-300"
+                />
+              </Link>
             </div>
           </div>
 
@@ -525,22 +530,9 @@ const Navbar = () => {
             <span>Dashboard</span>
           </li>
           <li>
-            <Link to="/" onClick={handleLinkClick}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                />
-              </svg>
-              Home
+            <Link to="/dashboard" onClick={handleLinkClick}>
+              <LayoutDashboard className="h-5 w-5" />
+              DashBoard
             </Link>
           </li>
           <li>

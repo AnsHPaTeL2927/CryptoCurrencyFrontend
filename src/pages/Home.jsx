@@ -9,9 +9,9 @@ import {
     TrendingUp,
     Cpu,
     BarChart2,
-    Activity, 
+    Activity,
 } from "lucide-react";
-
+import { useTheme } from "../pages/context/themeContext";
 // Reusable Animation Wrapper Component
 const AnimatedSection = ({ children, className = "" }) => {
     const ref = useRef(null);
@@ -42,6 +42,8 @@ const AnimatedSection = ({ children, className = "" }) => {
 };
 
 const Home = () => {
+    const { theme } = useTheme();
+
     const handleGetStarted = () => {
         window.location.href = "/register";
     };
@@ -51,9 +53,11 @@ const Home = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white overflow-hidden">
+        <div
+            className={`min-h-screen bg-base-100 text-base-content overflow-hidden ${theme}`}
+        >
             {/* Hero Section */}
-            <AnimatedSection className="hero min-h-screen bg-gradient-to-br from-gray-900 via-gray-900 to-black">
+            <AnimatedSection className="hero min-h-screen bg-base-200">
                 <div className="hero-content flex-col lg:flex-row items-center justify-between w-full max-w-6xl mx-auto px-4">
                     {/* Trading Chart Image Container */}
                     <motion.div
@@ -74,14 +78,14 @@ const Home = () => {
                         }}
                         className="w-full md:w-1/2 mb-8 lg:mb-0 lg:mr-12 relative"
                     >
-                        <div className="absolute -inset-4 bg-blue-600/20 rounded-2xl blur-2xl"></div>
-                        <div className="relative z-10 shadow-2xl rounded-2xl overflow-hidden border-4 border-gray-800">
+                        <div className="absolute -inset-4 bg-primary/20 rounded-2xl blur-2xl"></div>
+                        <div className="relative z-10 shadow-2xl rounded-2xl overflow-hidden border-4 border-base-300">
                             <img
                                 src="public/hero image 2.jpg"
                                 alt="Cryptocurrency Trading Chart"
                                 className="w-full h-auto object-cover"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-purple-900/30 mix-blend-overlay"></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-secondary/30 mix-blend-overlay"></div>
                         </div>
                     </motion.div>
 
@@ -91,7 +95,7 @@ const Home = () => {
                             initial={{ opacity: 0, x: -50 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.6, delay: 0.2 }}
-                            className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600"
+                            className="text-5xl font-bold text-primary"
                         >
                             Trade Smarter, Not Harder
                         </motion.h1>
@@ -99,7 +103,7 @@ const Home = () => {
                             initial={{ opacity: 0, x: -50 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.6, delay: 0.3 }}
-                            className="text-xl text-gray-300"
+                            className="text-xl text-base-content/70"
                         >
                             Unlock the power of advanced cryptocurrency trading with real-time
                             insights, AI-driven analysis, and seamless execution.
@@ -110,26 +114,21 @@ const Home = () => {
                             transition={{ duration: 0.6, delay: 0.4 }}
                             className="flex space-x-4"
                         >
-                            <button
-                                onClick={handleGetStarted}
-                                className="btn bg-gradient-to-r from-blue-600 to-purple-700 text-white hover:from-blue-700 hover:to-purple-800 transition-all duration-300 transform hover:scale-105"
-                            >
+                            <button onClick={handleGetStarted} className="btn btn-primary">
                                 Start Trading
                             </button>
-                            <button
-                                onClick={handleLearnMore}
-                                className="btn btn-outline border-gray-700 text-gray-300 hover:bg-gray-800 transition-all duration-300 transform hover:scale-105"
-                            >
+                            <button onClick={handleLearnMore} className="btn btn-outline">
                                 Learn More
                             </button>
                         </motion.div>
                     </div>
                 </div>
             </AnimatedSection>
+
             {/* Features Section */}
-            <AnimatedSection className="py-24 bg-gray-900">
+            <AnimatedSection className="py-24 bg-base-200">
                 <div className="container mx-auto px-4">
-                    <h2 className="text-4xl font-bold text-center mb-16 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
+                    <h2 className="text-4xl font-bold text-center mb-16 text-primary">
                         Advanced Trading Tools
                     </h2>
                     <div className="grid md:grid-cols-3 gap-8">
@@ -177,20 +176,22 @@ const Home = () => {
                                         type: "spring",
                                         stiffness: 120,
                                     }}
-                                    className="bg-gray-800 rounded-2xl p-6 hover:bg-gray-700 transition-all duration-300 group"
+                                    className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 group"
                                 >
-                                    <div className="text-center">
-                                        <div className="mb-4 inline-block p-4 bg-blue-900/30 rounded-full group-hover:bg-blue-900/50 transition-all duration-300">
-                                            <Icon className="w-10 h-10 text-blue-400 group-hover:text-blue-300 transition-colors" />
+                                    <div className="card-body text-center">
+                                        <div className="mb-4 inline-block self-center p-4 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-all duration-300">
+                                            <Icon className="w-10 h-10 text-primary group-hover:text-primary-focus transition-colors" />
                                         </div>
-                                        <h3 className="text-xl font-semibold mb-3 text-blue-300">
+                                        <h3 className="card-title self-center text-base-content text-xl font-bold group-hover:text-primary transition-colors">
                                             {feature.title}
                                         </h3>
-                                        <p className="text-gray-400 mb-4">{feature.description}</p>
-                                        <ul className="text-left text-gray-500 space-y-2">
+                                        <p className="text-base-content/70 mb-4 group-hover:text-base-content transition-colors">
+                                            {feature.description}
+                                        </p>
+                                        <ul className="text-left text-base-content/60 group-hover:text-base-content/80 space-y-2 transition-colors">
                                             {feature.details.map((detail, detailIndex) => (
                                                 <li key={detailIndex} className="flex items-center">
-                                                    <Activity className="w-4 h-4 mr-2 text-blue-500" />
+                                                    <Activity className="w-4 h-4 mr-2 text-primary group-hover:text-primary-focus transition-colors" />
                                                     {detail}
                                                 </li>
                                             ))}
@@ -202,14 +203,15 @@ const Home = () => {
                     </div>
                 </div>
             </AnimatedSection>
+
             {/* Call to Action */}
-            <AnimatedSection className="py-24 bg-gradient-to-br from-blue-900/50 to-purple-900/50">
+            <AnimatedSection className="py-24 bg-base-300">
                 <div className="container mx-auto px-4 text-center">
                     <motion.h2
                         initial={{ opacity: 0, y: 50 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
-                        className="text-4xl font-bold mb-6 text-white"
+                        className="text-4xl font-bold mb-6 text-base-content"
                     >
                         Transform Your Trading Strategy
                     </motion.h2>
@@ -217,7 +219,7 @@ const Home = () => {
                         initial={{ opacity: 0, y: 50 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
-                        className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto"
+                        className="text-xl text-base-content/70 mb-8 max-w-2xl mx-auto"
                     >
                         Join thousands of traders leveraging cutting-edge technology to
                         maximize their cryptocurrency investment potential.
@@ -232,23 +234,19 @@ const Home = () => {
                             stiffness: 120,
                         }}
                         onClick={handleGetStarted}
-                        className="btn bg-gradient-to-r from-blue-600 to-purple-700 text-white px-8 py-3 rounded-full text-lg hover:from-blue-700 hover:to-purple-800 transition-all duration-300"
+                        className="btn btn-primary px-8 py-3 rounded-full text-lg"
                     >
                         Create Your Account
                     </motion.button>
                 </div>
             </AnimatedSection>
+
             {/* Why Choose Us Section */}
-            <AnimatedSection className="py-24 bg-gray-800">
+            <AnimatedSection className="py-24 bg-base-200">
                 <div className="container mx-auto px-4">
-                    <motion.h2
-                        initial={{ opacity: 0, y: -50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                        className="text-4xl font-bold text-center mb-16 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600"
-                    >
+                    <h2 className="text-4xl font-bold text-center mb-16 text-primary">
                         Why Choose CryptoTrader?
-                    </motion.h2>
+                    </h2>
                     <div className="grid md:grid-cols-3 gap-8">
                         {[
                             {
@@ -297,20 +295,22 @@ const Home = () => {
                                         type: "spring",
                                         stiffness: 120,
                                     }}
-                                    className="bg-gray-900 rounded-2xl p-6 hover:bg-gray-800 transition-all duration-300 group"
+                                    className="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 group"
                                 >
-                                    <div className="text-center">
-                                        <div className="mb-4 inline-block p-4 bg-blue-900/30 rounded-full group-hover:bg-blue-900/50 transition-all duration-300">
-                                            <Icon className="w-10 h-10 text-blue-400 group-hover:text-blue-300 transition-colors" />
+                                    <div className="card-body text-center">
+                                        <div className="mb-4 inline-block self-center p-4 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-all duration-300">
+                                            <Icon className="w-10 h-10 text-primary group-hover:text-primary-focus transition-colors" />
                                         </div>
-                                        <h3 className="text-xl font-semibold mb-3 text-blue-300">
+                                        <h3 className="card-title self-center text-base-content text-xl font-bold group-hover:text-primary transition-colors">
                                             {feature.title}
                                         </h3>
-                                        <p className="text-gray-400 mb-4">{feature.description}</p>
-                                        <ul className="text-left text-gray-500 space-y-2">
+                                        <p className="text-base-content/70 mb-4 group-hover:text-base-content transition-colors">
+                                            {feature.description}
+                                        </p>
+                                        <ul className="text-left text-base-content/60 group-hover:text-base-content/80 space-y-2 transition-colors">
                                             {feature.details.map((detail, detailIndex) => (
                                                 <li key={detailIndex} className="flex items-center">
-                                                    <TrendingUp className="w-4 h-4 mr-2 text-blue-500" />
+                                                    <TrendingUp className="w-4 h-4 mr-2 text-primary group-hover:text-primary-focus transition-colors" />
                                                     {detail}
                                                 </li>
                                             ))}
@@ -322,8 +322,9 @@ const Home = () => {
                     </div>
                 </div>
             </AnimatedSection>
+
             {/* 24/7 Customer Support Section */}
-            <AnimatedSection className="py-24 bg-gradient-to-br from-blue-900/20 to-purple-900/20">
+            <AnimatedSection className="py-24 bg-base-300">
                 <div className="container mx-auto px-4">
                     <div className="grid md:grid-cols-2 gap-12 items-center">
                         <motion.div
@@ -331,10 +332,10 @@ const Home = () => {
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.5 }}
                         >
-                            <h2 className="text-4xl font-bold mb-6 text-white">
+                            <h2 className="text-4xl font-bold mb-6 text-base-content">
                                 24/7 Expert Support
                             </h2>
-                            <p className="text-xl text-gray-300 mb-6">
+                            <p className="text-xl text-base-content/70 mb-6">
                                 Our dedicated support team is always ready to assist you,
                                 ensuring a smooth and confident trading experience.
                             </p>
@@ -358,16 +359,18 @@ const Home = () => {
                                             initial={{ opacity: 0, x: -30 }}
                                             whileInView={{ opacity: 1, x: 0 }}
                                             transition={{ duration: 0.5, delay: index * 0.2 }}
-                                            className="flex items-center bg-gray-900/50 p-4 rounded-lg hover:bg-gray-900/70 transition-all duration-300"
+                                            className="flex items-center bg-base-100 p-4 rounded-lg hover:bg-base-200 transition-all duration-300"
                                         >
-                                            <div className="mr-4 p-3 bg-blue-900/30 rounded-full">
-                                                <Icon className="w-6 h-6 text-blue-400" />
+                                            <div className="mr-4 p-3 bg-primary/10 rounded-full">
+                                                <Icon className="w-6 h-6 text-primary" />
                                             </div>
                                             <div>
-                                                <h4 className="font-semibold text-blue-300">
+                                                <h4 className="font-semibold text-base-content">
                                                     {support.title}
                                                 </h4>
-                                                <p className="text-gray-400">{support.description}</p>
+                                                <p className="text-base-content/70">
+                                                    {support.description}
+                                                </p>
                                             </div>
                                         </motion.div>
                                     );
@@ -382,7 +385,7 @@ const Home = () => {
                                     type: "spring",
                                     stiffness: 120,
                                 }}
-                                className="mt-6 btn bg-gradient-to-r from-blue-600 to-purple-700 text-white hover:from-blue-700 hover:to-purple-800 transition-all duration-300"
+                                className="mt-6 btn btn-primary"
                             >
                                 Contact Support
                             </motion.button>
@@ -395,27 +398,27 @@ const Home = () => {
                             className="flex justify-center"
                         >
                             <div className="w-full max-w-md relative">
-                                <div className="absolute -inset-4 bg-blue-600/20 rounded-2xl blur-2xl"></div>
-                                <div className="relative z-10 bg-gray-900 rounded-2xl p-8 shadow-2xl">
+                                <div className="absolute -inset-4 bg-primary/20 rounded-2xl blur-2xl"></div>
+                                <div className="relative z-10 bg-base-100 rounded-2xl p-8 shadow-2xl">
                                     <div className="flex justify-center mb-6">
-                                        <div className="p-4 bg-blue-900/30 rounded-full">
-                                            <ShieldCheck className="w-12 h-12 text-blue-400" />
+                                        <div className="p-4 bg-primary/10 rounded-full">
+                                            <ShieldCheck className="w-12 h-12 text-primary" />
                                         </div>
                                     </div>
-                                    <h3 className="text-2xl font-bold text-center mb-4 text-blue-300">
+                                    <h3 className="text-2xl font-bold text-center mb-4 text-base-content">
                                         Dedicated Support Team
                                     </h3>
-                                    <ul className="space-y-3 text-gray-400">
+                                    <ul className="space-y-3 text-base-content/70">
                                         <li className="flex items-center">
-                                            <Zap className="w-5 h-5 mr-2 text-blue-500" />
+                                            <Zap className="w-5 h-5 mr-2 text-primary" />
                                             Instant Chat Support
                                         </li>
                                         <li className="flex items-center">
-                                            <Globe className="w-5 h-5 mr-2 text-blue-500" />
+                                            <Globe className="w-5 h-5 mr-2 text-primary" />
                                             Multilingual Support
                                         </li>
                                         <li className="flex items-center">
-                                            <Activity className="w-5 h-5 mr-2 text-blue-500" />
+                                            <Activity className="w-5 h-5 mr-2 text-primary" />
                                             Technical Expertise
                                         </li>
                                     </ul>

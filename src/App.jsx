@@ -39,6 +39,7 @@ import Profile from "./pages/Profile";
 
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
+import ProtectedRoute from "./components/Auth/ProtectedRoute";
 
 function App() {
   return (
@@ -48,12 +49,33 @@ function App() {
         <Routes>
           {/* Dashboard Routes */}
           <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/watchlist" element={<Watchlist />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/portfolio"
+            element={
+              <ProtectedRoute>
+                <Portfolio />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/watchlist"
+            element={
+              <ProtectedRoute>
+                <Watchlist />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Trading Routes */}
-          <Route path="/trading">
+          <Route path="/trading" element={<ProtectedRoute></ProtectedRoute>}>
             <Route path="spot" element={<SpotTrading />} />
             <Route path="futures" element={<FuturesTrading />} />
             <Route path="margin" element={<MarginTrading />} />
@@ -62,27 +84,90 @@ function App() {
 
           {/* Market Routes */}
           <Route path="/market">
-            <Route path="overview" element={<MarketOverview />} />
-            <Route path="charts" element={<Charts />} />
+            <Route
+              path="overview"
+              element={
+                <ProtectedRoute>
+                  <MarketOverview />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="charts"
+              element={
+                <ProtectedRoute>
+                  <Charts />
+                </ProtectedRoute>
+              }
+            />
           </Route>
 
           {/* Web3 Routes */}
-          <Route path="/defi" element={<DeFi />} />
-          <Route path="/nft" element={<NFT />} />
+          <Route
+            path="/defi"
+            element={
+              <ProtectedRoute>
+                <DeFi />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/nft"
+            element={
+              <ProtectedRoute>
+                <NFT />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Resources Routes */}
-          <Route path="/news" element={<News />} />
-          <Route path="/learn" element={<Learn />} />
+          <Route
+            path="/news"
+            element={
+              <ProtectedRoute>
+                <News />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/learn"
+            element={
+              <ProtectedRoute>
+                <Learn />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Settings & Support Routes */}
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/support" element={<Support />} />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Settings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/support"
+            element={
+              <ProtectedRoute>
+                <Support />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Auth Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/auth/google/callback" element={<GoogleCallback />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
         <Footer />
       </ThemeProvider>
