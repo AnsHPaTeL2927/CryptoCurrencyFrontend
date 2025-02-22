@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AccountForm } from '../components/Settings/Forms/AccountForm'
 import { ApiKeysForm } from "../components/Settings/Forms/ApiKeysForm";
 import { DisplayForm } from '../components/Settings/Forms/DisplayForm'
@@ -11,11 +11,22 @@ import { SecurityTipsCard } from "../components/Settings/Cards/SecurityTipsCard"
 import { ThemePreviewCard } from '../components/Settings/Cards/ThemePreviewCard'
 import { TradingLimitsCard } from '../components/Settings/Cards/TradingLimitsCard'
 import Sidebar from '../components/Settings/Navigation/Sidebar'
+import Skeleton from "../components/Settings/Loader/Skeleton";
 
 const Settings = () => {
   // State management
   const [activeTab, setActiveTab] = useState("account");
   const [showMobileNav, setShowMobileNav] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading time
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Form states
   const [profile, setProfile] = useState({
@@ -137,6 +148,10 @@ const Settings = () => {
         return null;
     }
   };
+
+  if (isLoading) {
+    return <Skeleton />;
+  }
 
   return (
     <div className="min-h-screen bg-base-200">

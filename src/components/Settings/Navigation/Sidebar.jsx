@@ -1,9 +1,8 @@
-/* eslint-disable react/prop-types */
 import {
     Bell,
     Lock,
     User,
-    Settings as SettingsIcon,
+    Settings,
     Code,
     MonitorSmartphone,
     Menu,
@@ -14,7 +13,7 @@ const navItems = [
     { id: "account", label: "Account", icon: User },
     { id: "security", label: "Security", icon: Lock },
     { id: "notifications", label: "Notifications", icon: Bell },
-    { id: "trading", label: "Trading", icon: SettingsIcon },
+    { id: "trading", label: "Trading", icon: Settings },
     { id: "api", label: "API Keys", icon: Code },
     { id: "display", label: "Display", icon: MonitorSmartphone },
 ];
@@ -42,8 +41,8 @@ const Sidebar = ({ activeTab, onTabChange, showMobileNav, setShowMobileNav }) =>
     return (
         <>
             {/* Mobile Navigation */}
-            <div className="lg:hidden">
-                <div className="navbar bg-base-100 sticky top-0 z-50 shadow-lg">
+            <div className="lg:hidden relative">
+                <div className="navbar bg-base-100 shadow-lg z-40 relative">
                     <div className="flex-1">
                         <h1 className="text-xl font-bold">Settings</h1>
                     </div>
@@ -57,22 +56,19 @@ const Sidebar = ({ activeTab, onTabChange, showMobileNav, setShowMobileNav }) =>
                     </div>
                 </div>
 
-                {/* Mobile Menu */}
+                {/* Backdrop with blur effect */}
                 {showMobileNav && (
-                    <div className="fixed inset-0 z-40 bg-base-100">
-                        <div className="p-4">
-                            <div className="flex justify-between items-center mb-4">
-                                <h2 className="text-lg font-bold">Settings Menu</h2>
-                                <button
-                                    className="btn btn-square btn-ghost"
-                                    onClick={() => setShowMobileNav(false)}
-                                >
-                                    <X />
-                                </button>
+                    <>
+                        <div 
+                            className="fixed inset-0 bg-base-300/30 backdrop-blur-sm z-20"
+                            onClick={() => setShowMobileNav(false)}
+                        />
+                        <div className="absolute top-full left-0 right-0 bg-base-100 shadow-lg z-30">
+                            <div className="p-4">
+                                <NavContent />
                             </div>
-                            <NavContent />
                         </div>
-                    </div>
+                    </>
                 )}
             </div>
 
