@@ -106,11 +106,6 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-
-      // Get ID token
-      const token = await userCredential.user.getIdToken();
-
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
@@ -122,7 +117,8 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
 
       if (data.status === 'success') {
-        localStorage.setItem('token', token);
+        const userCredential = await signInWithCustomToken(auth, data.data.token);
+        localStorage.setItem('token', await userCredential.user.getIdToken())
         setUser(data.data.user);
         showToast('Successfully logged in!', 'success');
         navigate('/dashboard');
