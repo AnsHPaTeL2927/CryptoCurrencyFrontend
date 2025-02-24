@@ -3,7 +3,6 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import {
-  signInWithEmailAndPassword,
   signInWithCustomToken
 } from "firebase/auth";
 import { auth } from "../../config/firebaseConfig";
