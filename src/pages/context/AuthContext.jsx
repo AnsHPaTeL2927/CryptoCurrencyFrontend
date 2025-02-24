@@ -172,36 +172,36 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const handleGoogleLogin = async (token) => {
-    console.log("Token", token)
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/google`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token })
-      });
-      console.log(response)
-      const data = await response.json();
+  // const handleGoogleLogin = async (token) => {
+  //   console.log("Token", token)
+  //   try {
+  //     const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/google`, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ token })
+  //     });
+  //     console.log(response)
+  //     const data = await response.json();
 
-      if (data.status === 'success') {
-        localStorage.setItem('token', data.data.token);
-        setUser(data.data.user);
-        showToast('Successfully logged in with Google!', 'success');
-        navigate('/');
-        return { success: true };
-      } else {
-        throw new Error(data.message || 'Google login failed');
-      }
-    } catch (error) {
-      showToast(error.message || 'Google login failed', 'error');
-      return {
-        success: false,
-        error: error.message
-      };
-    }
-  };
+  //     if (data.status === 'success') {
+  //       localStorage.setItem('token', data.data.token);
+  //       setUser(data.data.user);
+  //       showToast('Successfully logged in with Google!', 'success');
+  //       navigate('/');
+  //       return { success: true };
+  //     } else {
+  //       throw new Error(data.message || 'Google login failed');
+  //     }
+  //   } catch (error) {
+  //     showToast(error.message || 'Google login failed', 'error');
+  //     return {
+  //       success: false,
+  //       error: error.message
+  //     };
+  //   }
+  // };
 
   // const googleLogin = useGoogleLogin({
   //   flow: 'auth-code',
@@ -287,6 +287,129 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const forgotPassword = async (email) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/forgot-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email })
+      });
+
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        showToast('Password reset link sent to your email', 'success');
+        navigate("/login")
+        return { success: true };
+      } else {
+        throw new Error(data.message || 'Error sending password reset link');
+      }
+    } catch (error) {
+      showToast(error.message || 'Error sending password reset link', 'error');
+      return {
+        success: false,
+        error: error.message
+      };
+    }
+  };
+
+  const resetPassword = async (token, newPassword) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/reset-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token, newPassword })
+      });
+
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        showToast('Password reset successful. Please log in.', 'success');
+        navigate('/login');
+        return { success: true };
+      } else {
+        throw new Error(data.message || 'Password reset failed');
+      }
+    } catch (error) {
+      showToast(error.message || 'Password reset failed', 'error');
+      return {
+        success: false,
+        error: error.message
+      };
+    }
+  };
+
+  const verifyEmail = async (token) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/verify-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token })
+      });
+
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        showToast('Email verified successfully', 'success');
+
+        // If user is logged in, update the user state to reflect email verification
+        if (user) {
+          setUser({
+            ...user,
+            emailVerified: true
+          });
+        }
+
+        return { success: true };
+      } else {
+        throw new Error(data.message || 'Email verification failed');
+      }
+    } catch (error) {
+      showToast(error.message || 'Email verification failed', 'error');
+      return {
+        success: false,
+        error: error.message
+      };
+    }
+  };
+
+  // Helper method to handle email verification from URL
+  const handleEmailVerification = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+
+    if (token) {
+      verifyEmail(token).then(result => {
+        if (result.success) {
+          // Redirect to a success page or dashboard
+          navigate('/dashboard');
+        } else {
+          // Redirect to a verification failed page or login
+          navigate('/login');
+        }
+      });
+    }
+  };
+
+  // Helper method to handle password reset from URL
+  const handlePasswordResetFromURL = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+
+    if (token) {
+      // Return token to be used in a password reset form
+      return token;
+    }
+    return null;
+  };
+
+
   const value = {
     user,
     loading,
@@ -294,6 +417,11 @@ export const AuthProvider = ({ children }) => {
     register,
     googleLogin,
     logout,
+    forgotPassword,
+    resetPassword,
+    verifyEmail,
+    handleEmailVerification,
+    handlePasswordResetFromURL
   };
 
   return (

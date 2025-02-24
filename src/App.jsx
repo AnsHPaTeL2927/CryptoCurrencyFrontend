@@ -40,6 +40,8 @@ import Profile from "./pages/Profile";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
+import ForgotPassword from "./pages/auth/ForgetPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
 
 function App() {
   return (
@@ -194,6 +196,18 @@ function App() {
               <ProtectedRoute>
                 <Profile />
               </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/forgot-password"
+            element={
+              <ForgotPassword />
+            }
+          />
+          <Route
+            path="/reset-password"
+            element={
+              <ResetPassword />
             }
           />
         </Routes>
